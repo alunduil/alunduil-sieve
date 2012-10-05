@@ -2,15 +2,16 @@ require "fileinto";
 require "regex";
 require "variables";
 
-if header :contains "X-Bugzilla-Product" "Gentoo"
+if address :all :is "from" "bugzilla-daemon@gentoo.org"
 {
-  if header :regex "X-Bugzilla-Component" "(.*)"
+  if header :regex "X-Bugzilla-Product" "(.*)"
   {
-    set :lower "component" "${1}";
-    fileinto "INBOX.bugs.gentoo.${component}";
-  }
-  else
-  {
-    fileinto "INBOX.bugs.gentoo.${component}";
+    set :lower "product" "${1}";
+
+    if header :regex "X-Bugzilla-Component" "(.*)"
+    {
+      set :lower "component" "${1}";
+      fileinto "INBOX.bugs.gentoo.${product} (${component})";
+    }
   }
 }
