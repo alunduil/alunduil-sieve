@@ -22,3 +22,4 @@ if header :contains "X-Spam-Flag" "YES"
 include :personal "alunduil-servers.sieve";
 
 include :personal "mailing-lists.sieve";
+include :personal "bugzillas.sieve";
