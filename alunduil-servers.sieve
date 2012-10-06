@@ -14,6 +14,13 @@ if header :contains "Subject" "Status Report:Activity Report:Information:"
   stop;
 }
 
+if header :regex "Subject" "([-a-z0-9.]+)\.test\.alunduil\.com"
+{
+  set :lower "hostname" "${1}";
+  fileinto "INBOX.servers.alunduil.test.${hostname}";
+  stop;
+}
+
 if address :domain :regex [ "from", "to", "sender" ] "([-a-z0-9.]+)\.test\.alunduil\.com"
 {
   set :lower "hostname" "${1}";
@@ -21,10 +28,10 @@ if address :domain :regex [ "from", "to", "sender" ] "([-a-z0-9.]+)\.test\.alund
   stop;
 }
 
-if header :regex "Subject" "([-a-z0-9.]+)\.test\.alunduil\.com"
+if header :regex "Subject" "([-a-z0-9.]+)\.alunduil\.com"
 {
   set :lower "hostname" "${1}";
-  fileinto "INBOX.servers.alunduil.test.${hostname}";
+  fileinto "INBOX.servers.alunduil.${hostname}";
   stop;
 }
 
@@ -35,9 +42,3 @@ if address :domain :regex [ "from", "to", "sender" ] "([-a-z0-9.]+)\.alunduil\.c
   stop;
 }
 
-if header :regex "Subject" "([-a-z0-9.]+)\.alunduil\.com"
-{
-  set :lower "hostname" "${1}";
-  fileinto "INBOX.servers.alunduil.${hostname}";
-  stop;
-}
