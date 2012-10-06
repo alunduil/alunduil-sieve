@@ -23,7 +23,7 @@ if header :regex "List-ID" "(bacula-[-a-zA-Z0-9]+)\.lists\.sourceforge\.net"
   stop;
 }
 
-if header :regex "List-ID" "(cmake-[-a-zA-Z0-9]+)\.cmake\.org"
+if header :regex "List-ID" "(cmake[-a-zA-Z0-9]*)\.cmake\.org"
 {
   set :lower "listname" "${1}";
   fileinto "INBOX.mailing lists.cmake.${listname}";
