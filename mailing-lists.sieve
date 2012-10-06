@@ -78,16 +78,24 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)\.lists\.mnstate\.edu"
   stop;
 }
 
-if header :regex "List-ID" "(octave-[-a-zA-Z0-9]+)\.octave\.org"
+if header :regex "List-ID" "(octave[-a-zA-Z0-9]*)\.octave\.org"
 {
   set :lower "listname" "${1}";
   fileinto "INBOX.mailing lists.octave.${listname}";
   stop;
 }
 
-if header :regex "List-ID" "(puppet-[-a-zA-Z0-9]+)\.googlegroups\.com"
+if header :regex "List-ID" "(puppet[-a-zA-Z0-9]*)\.googlegroups\.com"
 {
   set :lower "listname" "${1}";
   fileinto "INBOX.mailing lists.puppet.${listname}";
   stop;
 }
+
+if header :regex "List-ID" "(openstack[-a-zA-Z0-9]*)\.lists\.launchpad\.net"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.openstack.${listname}";
+  stop;
+}
+
