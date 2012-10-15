@@ -8,7 +8,7 @@ if header :contains "Received" "dornick.alunduil.com"
   stop;
 }
 
-if header :contains "Subject" "Status Report:Activity Report:Information:"
+if header :contains "Subject" "Status Report:"
 {
   fileinto "INBOX.servers.alunduil.gladia";
   stop;
