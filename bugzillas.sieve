@@ -33,3 +33,14 @@ if exists "X-Bugzilla-Product"
   stop;
 }
 
+if exists "X-Launchpad-Bug"
+{
+  if header :regex "X-Launchpad-Bug" "product=([^;]+)"
+  {
+    set :lower "product" "${1}";
+  }
+
+  fileinto "INBOX.bugs.launchpad.${product}";
+  stop;
+}
+
