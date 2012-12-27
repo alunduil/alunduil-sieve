@@ -108,3 +108,10 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)\.oss\.tresys\.com"
   fileinto "INBOX.mailing lists.selinux.${listname}";
   stop;
 }
+
+if header :regex "X-List" "(fcron.*)"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.fcron.${listname}";
+  stop;
+}
