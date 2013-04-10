@@ -115,3 +115,18 @@ if header :regex "X-List" "(fcron.*)"
   fileinto "INBOX.mailing lists.fcron.${listname}";
   stop;
 }
+
+if header :regex "List-ID" "([-a-zA-Z0-9]+)\.overburnrpg\.com"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.overburn.${listname}";
+  stop;
+}
+
+if header :regex "List-ID" "([-a-zA-Z0-9]+)\.mailman\.powerdns\.com"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.powerdns.${listname}";
+  stop;
+}
+
