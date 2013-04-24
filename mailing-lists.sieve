@@ -119,7 +119,7 @@ if header :regex "X-List" "(fcron.*)"
 if header :regex "List-ID" "([-a-zA-Z0-9]+)\.overburnrpg\.com"
 {
   set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.overburn.${listname}";
+  fileinto "INBOX.mailing lists.games.${listname}";
   stop;
 }
 
@@ -127,6 +127,13 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)\.mailman\.powerdns\.com"
 {
   set :lower "listname" "${1}";
   fileinto "INBOX.mailing lists.powerdns.${listname}";
+  stop;
+}
+
+if header :regex "List-ID" "(kalorean-sat)\.googlegroups\.com"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.games.${listname}";
   stop;
 }
 
