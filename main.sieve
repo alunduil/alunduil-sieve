@@ -21,7 +21,7 @@ if header :contains "X-Spam-Flag" "YES"
   stop;
 }
 
-include :personal "alunduil-servers.sieve";
+include :personal "alunduil-servers";
 
-include :personal "mailing-lists.sieve";
-include :personal "bugzillas.sieve";
+include :personal "mailing-lists";
+include :personal "bugzillas";
