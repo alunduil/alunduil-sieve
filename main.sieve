@@ -5,7 +5,9 @@ require "imap4flags";
 if header :contains "Subject" [
   "Return Receipt",
   "Read:",
-  "Delivery Notification for:"
+  "Delivery Notification for:",
+  "Empfangsbestätigung (angezeigt) - ",
+  "Gelesen:"
   ]
 {
   setflag "\\Seen";
