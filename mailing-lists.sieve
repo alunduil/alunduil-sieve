@@ -137,3 +137,10 @@ if header :regex "List-ID" "(kalorean-sat)\.googlegroups\.com"
   stop;
 }
 
+if header :regex "List-ID" "(salt-.*)\.googlegroups\.com"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.salt.${listname}";
+  stop;
+}
+
