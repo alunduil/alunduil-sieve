@@ -44,3 +44,15 @@ if exists "X-Launchpad-Bug"
   stop;
 }
 
+if exists "X-GitHub-Recipient"
+{
+  if header :regex "List-ID" "(.*)/(.*) <"
+  {
+    set :lower "group" "${1}";
+    set :lower "project" "${2}";
+  }
+
+  fileinto "INBOX.bugs.${group}.${project}";
+  stop;
+}
+
