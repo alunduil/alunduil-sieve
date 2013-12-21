@@ -144,3 +144,16 @@ if header :regex "List-ID" "(salt-.*)\.googlegroups\.com"
   stop;
 }
 
+if header :regex "List-ID" "(margarine-.*)\.googlegroups\.com"
+{
+  set :lower "listname" "${1}";
+  fileinto "INBOX.mailing lists.margarine.${listname}";
+  stop;
+}
+
+if header :regex "List-ID" "(ansible-.*)\.googlegroups\.com"
+{
+  set :lower "listname: "${1}";
+  fileinto "INBOX.mailing lists.ansible.${listname}";
+  stop;
+}
