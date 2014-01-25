@@ -9,10 +9,10 @@ if header :regex "X-List" "(fcron.*)"
   stop;
 }
 
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.(?:[a-zA-Z0-9]+\.)?([a-zA-Z0-9]+\.[a-zA-Z0-9]{2,3}$"
+if header :regex "List-ID" "([-a-zA-Z0-9]+)\.([a-zA-Z0-9]+\.)?([a-zA-Z0-9]+)\.[a-zA-Z0-9]{2,3}>$"
 {
   set :lower "listname" "${1}";
-  set :lower "group" "${2}";
+  set :lower "group" "${3}";
 
   if string :matches "${group}" [
     "sourceforge",
@@ -20,7 +20,7 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)\.(?:[a-zA-Z0-9]+\.)?([a-zA-Z0-9]+\.[
     "googlegroups"
     ] 
   {
-    if string :regex ${listname} "([a-zA-Z0-9]+)-([a-zA-Z0-9]+)"
+    if string :regex "${listname}" "([a-zA-Z0-9]+)-([a-zA-Z0-9]+)"
     {
       set :lower "group" "${1}";
     }
