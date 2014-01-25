@@ -4,24 +4,18 @@ require "variables";
 
 if exists "X-Bugzilla-Product"
 {
-  if address :domain :regex "from" "([^.]+)\..*"
+  if address :domain :regex "from" "([^.]+)[.][^.]+$"
   {
     set :lower "bugzilla" "${1}";
   }
 
-  if header :contains "X-Bugzilla-Product" "/"
+  if header :regex "X-Bugzilla-Product" "([^/]+)(/([^/]+))"
   {
-    if header :regex "X-Bugzilla-Product" "([^/]*)/([^/]*)"
-    {
-      set :lower "product" "${1} ${2}";
-    }
+    set :lower "product" "${1} ${2}";
   }
-  else
+  elsif header :regex "X-Bugzilla-Product" "([^/]+)"
   {
-    if header :regex "X-Bugzilla-Product" "(.*)"
-    {
-      set :lower "product" "${1}";
-    }
+    set :lower "product" "${1}";
   }
 
   if header :regex "X-Bugzilla-Component" "(.*)"
@@ -29,7 +23,7 @@ if exists "X-Bugzilla-Product"
     set :lower "component" "${1}";
   }
 
-  fileinto "INBOX.bugs.${bugzilla}.${product} (${component})";
+  fileinto "INBOX.bugs.${bugzilla}.${product}.${component}";
   stop;
 }
 
@@ -46,7 +40,7 @@ if exists "X-Launchpad-Bug"
 
 if exists "X-GitHub-Recipient"
 {
-  if header :regex "List-ID" "(.*)/(.*) <"
+  if header :regex "List-ID" "([^/]+)/([^/]+) <"
   {
     set :lower "group" "${1}";
     set :lower "project" "${2}";
