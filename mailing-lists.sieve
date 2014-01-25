@@ -2,113 +2,6 @@ require "fileinto";
 require "regex";
 require "variables";
 
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.kde.org"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.kde.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.gentoo.org"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.gentoo.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(bacula-[-a-zA-Z0-9]+)\.lists\.sourceforge\.net"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.bacula.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(cmake[-a-zA-Z0-9]*)\.cmake\.org"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.cmake.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(drizzle-[-a-zA-Z0-9]+)\.lists\.launchpad\.net"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.drizzle.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" [
-  "(holland-[-a-zA-Z0-9]+)\.googlegroups.com",
-  "(holland-[-a-zA-Z0-9]+)\.lists\.launchpad\.net"
-  ]
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.holland.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" [ 
-  "([-a-zA-Z0-9]+)\.vger\.kernel\.org",
-  "(satlug)\.satlug\.org"
-  ]
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.linux.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(mailman-[-a-zA-Z0-9]+)\.python\.org"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.mailman.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(metalog-[-a-zA-Z0-9]+)\.lists\.sourceforge\.net"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.metalog.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.lists\.mnstate\.edu"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.mnstate.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(octave[-a-zA-Z0-9]*)\.octave\.org"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.octave.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(puppet[-a-zA-Z0-9]*)\.googlegroups\.com"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.puppet.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" [
-  "(openstack[-a-zA-Z0-9]*)\.lists\.launchpad\.net",
-  "(openstack[-a-zA-Z0-9]*)\.lists\.openstack\.org"
-  ]
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.openstack.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.oss\.tresys\.com"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.selinux.${listname}";
-  stop;
-}
-
 if header :regex "X-List" "(fcron.*)"
 {
   set :lower "listname" "${1}";
@@ -116,44 +9,24 @@ if header :regex "X-List" "(fcron.*)"
   stop;
 }
 
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.overburnrpg\.com"
+if header :regex "List-ID" "([-a-zA-Z0-9]+)\.(?:[a-zA-Z0-9]+\.)?([a-zA-Z0-9]+\.[a-zA-Z0-9]{2,3}$"
 {
   set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.games.${listname}";
-  stop;
-}
+  set :lower "group" "${2}";
 
-if header :regex "List-ID" "([-a-zA-Z0-9]+)\.mailman\.powerdns\.com"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.powerdns.${listname}";
-  stop;
-}
+  if string :matches "${group}" [
+    "sourceforge",
+    "launchpad",
+    "googlegroups"
+    ] 
+  {
+    if string :regex ${listname} "([a-zA-Z0-9]+)-([a-zA-Z0-9]+)"
+    {
+      set :lower "group" "${1}";
+    }
+  }
 
-if header :regex "List-ID" "(kalorean-sat)\.googlegroups\.com"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.games.${listname}";
-  stop;
-}
+  fileinto "INBOX.mailing lists.${group}.${listname}";
 
-if header :regex "List-ID" "(salt-.*)\.googlegroups\.com"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.salt.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(margarine-.*)\.googlegroups\.com"
-{
-  set :lower "listname" "${1}";
-  fileinto "INBOX.mailing lists.margarine.${listname}";
-  stop;
-}
-
-if header :regex "List-ID" "(ansible-.*)\.googlegroups\.com"
-{
-  set :lower "listname: "${1}";
-  fileinto "INBOX.mailing lists.ansible.${listname}";
   stop;
 }
