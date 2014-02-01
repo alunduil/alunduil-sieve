@@ -41,4 +41,3 @@ if address :domain :regex [ "from", "to", "sender" ] "([-a-z0-9.]+)\.alunduil\.c
   fileinto "INBOX.servers.alunduil.${hostname}";
   stop;
 }
-

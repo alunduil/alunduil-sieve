@@ -4,7 +4,7 @@ require "variables";
 
 if exists "X-Bugzilla-Product"
 {
-  if address :domain :regex "from" "([^.]+)[.][^.]+$"
+  if header :regex "X-Bugzilla-URL" "([^.]+)[.][^.]+/?$"
   {
     set :lower "bugzilla" "${1}";
   }
