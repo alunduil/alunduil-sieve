@@ -50,3 +50,23 @@ if exists "X-GitHub-Recipient"
   stop;
 }
 
+if exists "X-Roundup-Name"
+{
+  if header :regex "Reply-To" "([^.]+)[.][^.]+>$"
+  {
+    set :lower "bugzilla" "${1}";
+  }
+
+  if header :regex "X-Roundup-Name" "(.*)"
+  {
+    set :lower "product" "${1}";
+  }
+
+  if header :regex "X-Roundup-issue-components" "(.*)"
+  {
+    set :lower "component" "${1}";
+  }
+
+  fileinto "INBOX.bugs.${bugzilla}.${product}.${component}";
+  stop;
+}
