@@ -11,7 +11,7 @@ if exists "X-Bugzilla-Product"
 
   if header :regex "X-Bugzilla-Product" "([^/]+)(/([^/]+))"
   {
-    set :lower "product" "${1} ${2}";
+    set :lower "product" "${1} ${3}";
   }
   elsif header :regex "X-Bugzilla-Product" "([^/]+)"
   {

@@ -30,3 +30,13 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)[.]([a-zA-Z0-9]+[.])?([a-zA-Z0-9]+)[.
 
   stop;
 }
+
+if header :regex "List-Post" "<mailto:([^@]+)@([a-zA-Z0-9]+)[.][a-zA-Z0-9]{2,3}>$"
+{
+  set :lower "listname" "${1}";
+  set :lower "group" "${2}";
+
+  fileinto "INBOX.mailing lists.${group}.${listname}";
+
+  stop;
+}
