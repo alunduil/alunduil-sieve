@@ -13,10 +13,11 @@ if header :regex "X-List" "(fcron.*)" {
 
 if header :regex "List-ID" "([-a-zA-Z0-9]+)[.]([a-zA-Z0-9]+[.])?([a-zA-Z0-9]+)[.][a-zA-Z0-9]{2,3}>$" {
   set :lower "listname" "${1}";
+  set :lower "subgroup" "${2}";
   set :lower "group" "${3}";
 
   if string :matches "${group}" [ "apache" ] {
-    set :lower "group" "${2}";
+    set :lower "group" "${subgroup}";
   }
 
   if string :matches "${group}" [ "googlegroups", "launchpad", "sourceforge" ] {
