@@ -1,5 +1,6 @@
 require "fileinto";
 require "regex";
+require "reject";
 require "variables";
 
 if header :regex "X-List" "(fcron.*)"
@@ -24,6 +25,12 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)[.]([a-zA-Z0-9]+[.])?([a-zA-Z0-9]+)[.
     {
       set :lower "group" "${1}";
     }
+  }
+
+  if string :matches "${group}" [ "mcsv" ]
+  {
+    reject "stop sending messages with an improper List-ID header";
+    stop;
   }
 
   fileinto "INBOX.mailing lists.${group}.${listname}";

@@ -18,7 +18,11 @@ if exists "X-Bugzilla-Product"
     set :lower "product" "${1}";
   }
 
-  if header :regex "X-Bugzilla-Component" "(.*)"
+  if header :regex "X-Bugzilla-Component" "([^/]+)(/([^/]+))"
+  {
+    set :lower "component" "${1} ${3}";
+  }
+  elsif header :regex "X-Bugzilla-Component" "([^/]+)"
   {
     set :lower "component" "${1}";
   }
@@ -66,7 +70,22 @@ if exists "X-Roundup-Name"
   {
     set :lower "component" "${1}";
   }
+  else
+  {
+    set :lower "component" "unspecified";
+  }
 
   fileinto "INBOX.bugs.${bugzilla}.${product}.${component}";
+  stop;
+}
+
+if exists "X-JIRA-FingerPrint"
+{
+  if header :regex "From" "[^@]+@([^.]+).*"
+  {
+    set :lower "project" "${1}";
+  }
+
+  fileinto "INBOX.bugs.${project}";
   stop;
 }
