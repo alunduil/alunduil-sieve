@@ -15,7 +15,7 @@ if header :regex "List-ID" "([-a-zA-Z0-9]+)[.]([a-zA-Z0-9]+[.])?([a-zA-Z0-9]+)[.
   set :lower "listname" "${1}";
   set :lower "group" "${3}";
 
-  if string ;matches "${group}" [ "apache" ] {
+  if string :matches "${group}" [ "apache" ] {
     set :lower "group" "${2}";
   }
 
