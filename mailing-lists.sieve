@@ -11,10 +11,10 @@ if header :regex "X-List" "(fcron.*)" {
   stop;
 }
 
-if header :regex "List-ID" "([-a-zA-Z0-9]+)[.](?:([a-zA-Z0-9]+)[.])?([a-zA-Z0-9]+)[.][a-zA-Z0-9]{2,3}>$" {
+if header :regex "List-ID" "([-a-zA-Z0-9]+)[.](([a-zA-Z0-9]+)[.])?([a-zA-Z0-9]+)[.][a-zA-Z0-9]{2,3}>$" {
   set :lower "listname" "${1}";
-  set :lower "subgroup" "${2}";
-  set :lower "group" "${3}";
+  set :lower "subgroup" "${3}";
+  set :lower "group" "${4}";
 
   if string :matches "${group}" [ "apache" ] {
     set :lower "group" "${subgroup}";
